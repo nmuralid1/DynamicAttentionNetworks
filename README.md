@@ -18,7 +18,7 @@ All models require a GPU to train and were run on a single GPU with 16 GB memory
 	- In the run script, the '$PARDIR' parameter need to be set indicating the full path to wherever the DynamicAttentionNetworks/ directory is stored. Instructions for setting the rest of the model hyperparameters are provided within the shell scripts.
 	
 ### helpers.py 
-  - This script contains a calculate_mse_wmse() function --- This is the evaluation script which calculates MSE (Mean Squared Error) and WMSE (Weighted Mean Squared Error) for each dataset per model / sequence length. 
+  - This script contains a `calculate_mse_wmse()` function --- This is the evaluation script which calculates MSE (Mean Squared Error) and WMSE (Weighted Mean Squared Error) for each dataset per model / sequence length. 
   - It accepts two parameters, the path to the results directory (string with full path) and a sequence length (integer).
 	Ex: If we were trying to calcualte the MSE, WMSE for the DyAtH model for the ghl_small dataset and sequence length 90, we would supply the following command while calling the helper function.
 ```
