@@ -18,6 +18,12 @@ dropout=0.0
 tfratio=0.0    
 iternum=1         
 
+#DyatMaxPoolH Model Training and Testing.
 #sh "$SOURCEPARDIR/DyAtMaxPoolH/train.sh" $hidden $seqlength $dropout $tfratio $iternum "mean" $seqlength  #Uncomment this line to train DyAt-MaxPool-H model.
-sh "$SOURCEPARDIR/DyAtMaxPoolH/test.sh" $hidden $seqlength $dropout $tfratio $iternum "mean" $seqlength   #Uncomment this line to test DyAt-MaxPool-H model.
+#sh "$SOURCEPARDIR/DyAtMaxPoolH/test.sh" $hidden $seqlength $dropout $tfratio $iternum "mean" $seqlength   #Uncomment this line to test DyAt-MaxPool-H model.
+
+#DyAtH Model Training and Testing.
+#sh "$SOURCEPARDIR/DyAtH/train.sh" $hidden $seqlength $dropout $tfratio $iternum "mean" $seqlength  #Uncomment this line to train DyAt-MaxPool-H model.
+#sh "$SOURCEPARDIR/DyAtH/test.sh" $hidden $seqlength $dropout $tfratio $iternum "mean" $seqlength   #Uncomment this line to test DyAt-MaxPool-H model.
+
 
