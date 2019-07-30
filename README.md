@@ -15,7 +15,7 @@ All models require a GPU to train and were run on a single GPU with 16 GB memory
     - This is the shell script to run the ghl dataset. It contains two models DyAtH, DyAtMaxPoolH and the training and testing scripts for each. In each case, the training scripts need to be run  to completion first before invoking the testing scripts for the model.
 	Run: `sh run_ghl.sh`
 
-	- In the run script, the '$PARDIR' parameter need to be set indicating the full path to wherever the DynamicAttentionNetworks/ directory is stored. Instructions for setting the rest of the model hyperparameters are provided within the shell scripts.
+	- In the run script, the `$PARDIR` parameter need to be set indicating the full path to wherever the DynamicAttentionNetworks/ directory is stored. Instructions for setting the rest of the model hyperparameters are provided within the shell scripts.
 	
 ### helpers.py 
   - This script contains a `calculate_mse_wmse()` function --- This is the evaluation script which calculates MSE (Mean Squared Error) and WMSE (Weighted Mean Squared Error) for each dataset per model / sequence length. 
