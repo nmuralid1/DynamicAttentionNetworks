@@ -45,4 +45,4 @@ All models require a GPU to train and were run on a single GPU with 16 GB memory
     GHL\ Experiments.ipynb  
         -This notebook depicts how once trainining and testing has been conducted for a specific model (DyAt-H, DyAt-Maxpool-H) and a specific sequence length, it can be evaluated to obtain the average MSE, WMSE values.
 
-Note, error values might not be recovered exactly as the torch.cuda.manual_seed() was not set during experimentation.
+Note, error values might not be recovered exactly due to differences in cuda versions, system and various other configurations.
