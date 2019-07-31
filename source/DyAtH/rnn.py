@@ -98,7 +98,7 @@ class DecoderHierAttn(nn.Module):
 			h_t_drp=self.dropout(hier_h_t)  #dropout.
 			self.logger.debug("Size of h_t_drp = {}".format(h_t_drp.size()))
 			output = self.out(h_t_drp)  #output
-			self.logger.info("Size of output = {}, Size of hidden = {}".format(output.size(),h_t_drp.size()))
+			self.logger.debug("Size of output = {}, Size of hidden = {}".format(output.size(),h_t_drp.size()))
 			
 			return output,(hidden_t,cellstate),h_t,a_t,hier_h_t	
 
@@ -132,7 +132,7 @@ class DecoderHierAttn(nn.Module):
 			h_t_drp=self.dropout(hier_h_t)  #dropout.
 			self.logger.debug("Size of h_t_drp = {}".format(h_t_drp.size()))
 			output = self.out(h_t_drp)  #output
-			self.logger.info("Size of output = {}, Size of hidden = {}".format(output.size(),h_t_drp.size()))
+			self.logger.debug("Size of output = {}, Size of hidden = {}".format(output.size(),h_t_drp.size()))
 
 			return output,hidden_t,h_t,a_t,hier_h_t	
 

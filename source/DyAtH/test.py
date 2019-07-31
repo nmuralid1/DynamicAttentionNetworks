@@ -26,7 +26,7 @@ import pickle
 import sys
 sys.path.append('../')
 sys.path.append('../../')
-from helpers import create_data_sequences,preprocess_targets_data,timeSince,calculate_mse_tensor,exponentially_weighted_moving_average,_3D_pytorch_to_2D_pandas,plot_forecasts,makedirs
+from helpers import create_data_sequences,preprocess_targets_data,calculate_mse_tensor,_3D_pytorch_to_2D_pandas,plot_forecasts,makedirs
 from rnn import EncoderHierAttn, DecoderHierAttn
 from model_train_eval import testIters
 
@@ -73,7 +73,16 @@ print("Log output file = {}, level = {}".format(args.logoutputfile,loglevel))
 
 mse_overall_test=list()
 
-#DATASET PARAMETERS
+"""
+PREPROCESS TIMESERIES DATA. 
+ If you want to run the model on a new dataset and select a sub-set of columns, add a condition to the following set of conditional statements 
+
+ `elif "newdatasetsubstring" in args.datasetname:  
+    ...Do Something...`
+
+This needs to be the same snippet added to the corresponding train.py file as the subset of columns selected in both sets is assumed to be the same.
+"""
+
 if "tep" in args.datasetname:
 	columnsofinterest = ['MEAS_A_Feed', 'MEAS_D_Feed', 'MEAS_E_Feed', 'MEAS_A_C Feed', 'MEAS_Recycle_flow', 'MEAS_Reactor_feed', 'MEAS_Reactor_pressure', 'MEAS_Reactor_level', 'MEAS_Reactor_temperature', 'MEAS_Purge_rate', 'MEAS_Sep_temperature', 'MEAS_Sep_level', 'MEAS_Sep_pressure', 'MEAS_Sep_underflow', 'MEAS_Stripper_level', 'MEAS_Stripper_pressure', 'MEAS_Stripper_underfow', 'MEAS_Stripper_temperature', 'MEAS_Steam_flow', 'MEAS_Compressor_work', 'MEAS_Reactor_cool_temperature', 'MEAS_Condo_cool_temperature', 'MEAS_Feed_A', 'MEAS_Feed_B', 'MEAS_Feed_C', 'MEAS_Feed_D', 'MEAS_Feed_E', 'MEAS_Feed_F', 'MEAS_Purge_A', 'MEAS_Purge_B', 'MEAS_Purge_C', 'MEAS_Purge_D', 'MEAS_Purge_E', 'MEAS_Purge_F', 'MEAS_Purge_G', 'MEAS_Purge_H', 'MEAS_Product_D', 'MEAS_Product_E', 'MEAS_Product_F', 'MEAS_Product_G', 'MEAS_Product_H']
 

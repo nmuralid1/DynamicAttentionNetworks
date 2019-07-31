@@ -117,7 +117,6 @@ def _decoder_sequence_iter(input_tensor,target_tensor,decoder,encoder_hiddenstat
 
 
 def train(inputbatch, targetbatch, encoder, decoder, encoder_optimizer, decoder_optimizer,num_layers,criterion,teacher_forcing_ratio,SOS_TOKEN,logger,sliding_attention,hierattnmethod):
-	logger.info("inside train(), inputbatch.size() = {}, targetbatch.size() = {}, teacher_forcing_ratio = {}, SOS_TOKEN = {}".format(inputbatch.size(),targetbatch.size(),teacher_forcing_ratio,SOS_TOKEN))	
 
 	encoder_optimizer.zero_grad()
 	decoder_optimizer.zero_grad()
@@ -125,12 +124,11 @@ def train(inputbatch, targetbatch, encoder, decoder, encoder_optimizer, decoder_
 	sequence_length = inputbatch.size(1)    #This is the sequence length of the input tensor.
 	target_sequence_length = targetbatch.size(1)  #This is the sequence length of the target tensor.
 	loss = 0
-	logger.info("Sequence_length = {}, target_sequence_length = {}".format(sequence_length,target_sequence_length))
+	logger.debug("Sequence_length = {}, target_sequence_length = {}".format(sequence_length,target_sequence_length))
 	#Iterate over each instance of the input batch.
 	input_tensor  = inputbatch # batch_size X seq_size X input_size
 	target_tensor = targetbatch # batch_size X seq_size X input_size
 	
-	print("In Train, Size of Input Tensor = {}, In Train, Size of Target Tensor = {}".format(input_tensor.size(),target_tensor.size()))
 	#Encoder
 	if encoder.rnnobject=="LSTM":
 		encoder_hidden,encoder_cellstate,hidden_states=_encoder_sequence_iter(input_tensor,encoder,num_layers,logger)
@@ -162,7 +160,6 @@ def testNew(inputbatch, targetbatch, encoder, decoder,num_layers,criterion,SOS_T
 		@param: criterion: Used only during validation to record the validation loss. But for testing as well, we can just supply a criterion.
 	"""
 
-	logger.info("inside test(), inputbatch.size() = {}, targetbatch.size() = {}, SOS_TOKEN = {}".format(inputbatch.size(),targetbatch.size(),SOS_TOKEN))
 	#Run Encoder
 	if encoder.rnnobject=="LSTM":	
 		encoder_hidden,cell_state,hidden_states=_encoder_sequence_iter(inputbatch,encoder,num_layers,logger)
@@ -336,7 +333,7 @@ def testIters(encoder, decoder, testdata, numbatches, num_layers,SOS_TOKEN,teach
 		attention_weights.append(attention_weights_batch)
 		target_data.append(target_tensor)
 		
-		logger.info("Attention Weights Batch = {}, Target Tensor Batch = {}, Predictions Tensor Batch = {}".format(attention_weights_batch.size(),target_tensor.size(),predictions_batch.size()))
+		logger.debug("Attention Weights Batch = {}, Target Tensor Batch = {}, Predictions Tensor Batch = {}".format(attention_weights_batch.size(),target_tensor.size(),predictions_batch.size()))
 
 	#This is just for housekeeping and knowing which indices were actually evaluted by decoders.
 	#target_columns=list()
@@ -360,10 +357,10 @@ def testIters(encoder, decoder, testdata, numbatches, num_layers,SOS_TOKEN,teach
 		attention_tensor[:,ctr:ctr+attention_weights[idx].size(1),:,:] = attention_weights[idx]
 		predictions_tensor[ctr:ctr+target_data[idx].size(0),:,:] = predictions[idx]		
 		#target_columns_tensor[ctr:ctr+target_data[idx].size(0),:,:] = target_columns[idx]
-		logger.info("Target Tensor Begin Idx = {}, End Idx = {} Size of Batch = {}".format(ctr,ctr+target_data[idx].size(0),target_data[idx].size()))
-		logger.info("Attention Tensor Begin Idx = {}, End Idx = {}, Size of Batch = {}".format(ctr,ctr+attention_weights[idx].size(1),attention_weights[idx].size()))
+		logger.debug("Target Tensor Begin Idx = {}, End Idx = {} Size of Batch = {}".format(ctr,ctr+target_data[idx].size(0),target_data[idx].size()))
+		logger.debug("Attention Tensor Begin Idx = {}, End Idx = {}, Size of Batch = {}".format(ctr,ctr+attention_weights[idx].size(1),attention_weights[idx].size()))
 		#logger.info("Target Columns Tensor Begin Idx = {}, End Idx = {}, Size of Batch = {}".format(ctr,ctr+target_columns[idx].size(0),target_columns[idx].size()))
-		logger.info("==============")
+		logger.debug("==============")
 		ctr+=target_data[idx].size(0)
 
 	logger.info("Predictions Tensor Size {}, Attention Tensor Size = {}, len(mean_squared_error) = {}, Size of Test Data = {}, Target Tensor = {}".format(predictions_tensor.size(),attention_tensor.size(),len(mean_squared_error),testdata.size(),target_tensor.size()))
@@ -414,7 +411,7 @@ def trainIters(encoder, decoder, inputdata,testdata, numbatches, num_layers,teac
 				val_target_tensor = batch[1:,:]
 				val_input_tensor = val_input_tensor.cuda()     ## CUDA
 				val_target_tensor = val_target_tensor.cuda()   ## CUDA
-				logger.info("Val Input Tensor Size = {}, Val Target Tensor Size = {}".format(val_input_tensor.size(),val_target_tensor.size()))
+				logger.debug("Val Input Tensor Size = {}, Val Target Tensor Size = {}".format(val_input_tensor.size(),val_target_tensor.size()))
 
 				########## HARDCODING Anomalies Just to check if there is an effect ####################
 				#val_target_tensor[500:700,5:8,2] = 2 # Adding Anomalies for values from 500 to 700 to decoder side.
@@ -423,7 +420,7 @@ def trainIters(encoder, decoder, inputdata,testdata, numbatches, num_layers,teac
 
 				#val_loss, mse_per_batch,anomaly_threshold,validation_predictions,attention_weights = test(val_input_tensor, val_target_tensor, encoder, decoder, num_layers,criterion,SOS_TOKEN,teacher_forcing_ratio,logger,sliding_attention) #We can consuder validation_batch_predictions as the predictions on the entire validation set for all sequence time-steps because we evaluate on the entire validation set for each batch.
 				val_loss, mse_per_batch,validation_predictions,attention_weights = testNew(val_input_tensor, val_target_tensor, encoder, decoder, num_layers,criterion,SOS_TOKEN,teacher_forcing_ratio,logger,sliding_attention,hierattnmethod=hierattnmethod,istest=False)
-				logger.info("Attention Weights Size = {}".format(attention_weights.size()))
+				logger.debug("Attention Weights Size = {}".format(attention_weights.size()))
 
 				mse_validation_pred_err_per_epoch.append(mse_per_batch)
 				batch_val_loss+=val_loss
